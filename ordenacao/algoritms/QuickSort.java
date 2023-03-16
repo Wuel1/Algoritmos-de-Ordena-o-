@@ -7,40 +7,44 @@ public class QuickSort implements Sorter {
     @Override
     public int[] sort(int[] elements) {
         int [] sorted = elements.clone();
-        int começo = sorted[0];
-        int fim = sorted[sorted.length-1];
-        if(começo < fim){
-            int[] PRIpivo = parte(sorted, começo, fim);
-            sort(PRIpivo);
-            return PRIpivo;
-            }
-            return sorted;
+        int começo = 0;
+        int fim = sorted.length - 1;
+        quickSort(sorted, começo, fim);
+        return sorted;
+    }
+
+    public static void quickSort(int[] lista, int inicio, int fim){
+        if(inicio < fim){
+           int elemento = parte(lista, inicio, fim);
+           quickSort(lista, inicio, elemento - 1);
+           quickSort(lista, elemento + 1, fim);                         
         }
-    
-    
-    public int[] parte(int[] sorted, int menores, int maiores){        
-        int pivo = sorted[0];
-        int i = 0;
-        int j = sorted.length - 1;
+    }
+
+    public static int parte(int[] sorted, int inicio, int fim){        
+        int pivo = sorted[inicio];
+        int i = inicio + 1;
+        int j = fim;
         while(i<=j){
             if(sorted[i]<= pivo){
-                i = i+1;
+                i++;
             }
             else if(pivo < sorted[j]){
-                j = j-1;
+                j--;
             }
             else{
                 int controle = sorted[i];
                 sorted[i] = sorted[j];
                 sorted[j] = controle;
-                i = i+1;
-                j = j-1;
+                i++;
+                j--;
             }
         }        
-        sorted[i] = sorted[j];
+        sorted[inicio] = sorted[j];
         sorted[j] = pivo;
-        return sorted;
+        return j;
     }
+      
 
     @Override
     public String getName() {
